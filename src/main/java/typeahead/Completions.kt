@@ -43,14 +43,14 @@ fun NavigableSet<NGram>.complete(input: String): List<String> {
     val matches = queried.dropWhile { it.first.isEmpty() }
     val (candidates, remaining) = matches.first()
 
-    val charPairs = if (remaining.length() == 1) listOf(remaining) else remaining.pairwise()
-    val prefix = input.substring(0, input.length() - remaining.length())
+    val charPairs = if (remaining.length == 1) listOf(remaining) else remaining.pairwise()
+    val prefix = input.substring(0, input.length - remaining.length)
 
     return candidates.filter { c ->
-        val postfix = c.words.substring(prefix.length())
+        val postfix = c.words.substring(prefix.length)
         charPairs.map { pair ->
             when {
-                pair.length() == 1 -> postfix.contains(pair)
+                pair.length == 1 -> postfix.contains(pair)
                 else -> postfix.indexOf(pair[0]).let { it > 0 && it < postfix.lastIndexOf(pair[1]) }
             }
         }.all { it }
